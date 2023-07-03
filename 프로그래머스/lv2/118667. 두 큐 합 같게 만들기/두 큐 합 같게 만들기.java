@@ -17,13 +17,12 @@ class Solution {
             q2.add((long)num);
             cnt++;
         }
-        if(cnt%2 == 1) return -1;
         
         long q1_sum = sum(q1);
         long q2_sum = sum(q2);
-        int end = q1.size() + q2.size();
+
         while(q1_sum != q2_sum) {
-            if(answer > cnt * 4) return -1;
+            if(answer >= cnt+2) return -1;
             if(q1_sum > q2_sum) {
                 long num = q1.poll();
                 q2.add(num);
@@ -36,7 +35,7 @@ class Solution {
                 q2_sum -= num;
                 q1_sum += num;
             }
-            if(cnt > end*2) return -1;
+
             answer++;
         }
         
