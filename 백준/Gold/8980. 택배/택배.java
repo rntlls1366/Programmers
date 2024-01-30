@@ -32,7 +32,7 @@ public class Main {
         for(Box box : boxes) {
             int min = Integer.MAX_VALUE;
             for(int i = box.start; i < box.end; i++) {
-                if(route[i] >= box.count) {
+                if(route[i] >= box.count && min >= box.count) {
                     min = box.count;
                 }
                 else {
@@ -67,7 +67,7 @@ class Box implements Comparable<Box>{
         if(a > b) return 1;
         else if(a < b) return -1;
         else {
-            return Integer.compare(this.count, o.count);
+            return Integer.compare(o.count, this.count);
         }
     }
 }
