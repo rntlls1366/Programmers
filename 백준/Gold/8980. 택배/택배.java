@@ -61,13 +61,18 @@ class Box implements Comparable<Box>{
     }
 
     @Override
-    public int compareTo(Box o) {       //배송 거리 순으로 정렬, 거리가 같다면 박스의 수 순으로 정렬
-        int a = this.end - this.start;
-        int b = o.end - o.start;
-        if(a > b) return 1;
-        else if(a < b) return -1;
-        else {
-            return Integer.compare(o.count, this.count);
-        }
+    public int compareTo(Box o) {
+//        int a = this.end - this.start;
+//        int b = o.end - o.start;
+//        if(a > b) return 1;
+//        else if(a < b) return -1;
+//        else {
+//            return Integer.compare(o.count, this.count);
+//        }
+
+        if(this.end < o.end) return - 1;
+        else if(this.end > o.end) return 1;
+        if(this.start < o.start) return -1;
+        else return 1;
     }
 }
