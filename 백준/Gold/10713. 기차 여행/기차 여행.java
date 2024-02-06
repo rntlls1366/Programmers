@@ -18,19 +18,19 @@ public class Main {
             nextCity[i] = Integer.parseInt(st.nextToken());
         }
 
-        int[] tickets = new int[N];
-        int[] cards = new int[N];
-        int[] chips = new int[N];
+        long[] tickets = new long[N];
+        long[] cards = new long[N];
+        long[] chips = new long[N];
 
         for(int i = 1; i < N; i++) {
             st = new StringTokenizer(br.readLine());
-            tickets[i] = Integer.parseInt(st.nextToken());
-            cards[i] = Integer.parseInt(st.nextToken());
-            chips[i] = Integer.parseInt(st.nextToken());
+            tickets[i] = Long.parseLong(st.nextToken());
+            cards[i] = Long.parseLong(st.nextToken());
+            chips[i] = Long.parseLong(st.nextToken());
         }
 
-        int[] start = new int[N + 1];
-        int[] end = new int[N + 1];
+        long[] start = new long[N + 1];
+        long[] end = new long[N + 1];
 
         for(int i = 0; i < M - 1; i++) {
             int min = Math.min(nextCity[i], nextCity[i + 1]);
@@ -39,16 +39,16 @@ public class Main {
             end[max]++;
         }
 
-        int cnt = 0;
+        long cnt = 0;
         long result = 0;
         for(int i = 1; i < N; i++) {
             cnt += start[i];
             cnt -= end[i];
             if(tickets[i] * cnt > (cards[i] * cnt) + chips[i]) {
-                result += (long) cards[i] * cnt + chips[i];
+                result += (cards[i] * cnt) + chips[i];
             }
             else {
-                result += (long) tickets[i] * cnt;
+                result += tickets[i] * cnt;
             }
         }
 
