@@ -1,10 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
@@ -16,7 +13,7 @@ public class Main {
     static int[] dx = {-1, 0, 1, 0, -1, 1, 1, -1};
     static int[] dy = {0, 1, 0, -1, 1, 1, -1, -1};
 
-    static HashMap<String, Integer> hm = new HashMap<>();
+    static HashMap<String, Storage> hm = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -34,24 +31,42 @@ public class Main {
             }
         }
 
+        Loop1:
         for(int i = 0; i < K; i++) {
             str = br.readLine();
             limit = str.length();
 
+            HashSet<Next> hs = new HashSet<>();
+            Queue<Next> q = new LinkedList<>();
+            int result = 0;
+
             if(hm.containsKey(str)) {
-                System.out.println(hm.get(str));
+                System.out.println(hm.get(str).result);
                 continue;
             }
 
-            Queue<Next> q = new LinkedList<>();
-
-            for(int j = 0; j < N; j++) {
-                for(int k = 0; k < M; k++) {
-                    if(getPossibility(j, k, 0)) q.add(new Next(j, k, 1));
+            for(int j = 1; j < str.length(); j++) {
+                String temp = str.substring(0, str.length() - j);
+                if(hm.containsKey(temp)) {
+                    q.addAll(hm.get(temp).hs);
+                    break;
                 }
             }
 
-            int result = 0;
+            if(q.isEmpty()) {
+                for(int j = 0; j < N; j++) {
+                    for(int k = 0; k < M; k++) {
+                        if(getPossibility(j, k, 0)) {
+                            if(1 == limit) {
+                                hs.add(new Next(j, k, 1));
+                                result++;
+                                continue;
+                            }
+                            q.add(new Next(j, k, 1));
+                        }
+                    }
+                }
+            }
 
             while(!q.isEmpty()) {
                 Next now = q.poll();
@@ -65,6 +80,7 @@ public class Main {
 
                     if(getPossibility(x, y, now.level)) {
                         if(now.level + 1 == limit) {
+                            hs.add(new Next(x, y, now.level + 1));
                             result++;
                             continue;
                         }
@@ -74,7 +90,7 @@ public class Main {
 
             }
 
-            hm.put(str, result);
+            hm.put(str, new Storage(hs, result));
             System.out.println(result);
         }
     }
@@ -95,6 +111,16 @@ public class Main {
         result[0] = x;
         result[1] = y;
         return result;
+    }
+}
+
+class Storage {
+    HashSet<Next> hs;
+    int result;
+
+    public Storage(HashSet<Next> hs, int result) {
+        this.hs = hs;
+        this.result = result;
     }
 }
 
