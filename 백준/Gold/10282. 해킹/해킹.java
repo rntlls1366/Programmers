@@ -46,9 +46,9 @@ public class Main {
                 Computer now = pq.poll();
 
                 for(Computer computer : adj.get(now.next)) {
-                    if(distances[computer.next] > distances[now.next] + computer.second) {
-                        distances[computer.next] = distances[now.next] + computer.second;
-                        pq.add(computer);
+                    if(distances[computer.next] > now.second + computer.second) {
+                        distances[computer.next] = now.second + computer.second;
+                        pq.add(new Computer(computer.next, now.second + computer.second));
                     }
                 }
             }
